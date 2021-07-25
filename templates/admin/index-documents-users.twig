@@ -1,0 +1,43 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1 style="text-align: center;">Форма просмотра документов</h1>
+    {% if user is not null %}
+        <fieldset style="width: 500px; margin-left: auto; margin-right: auto; border: 3px solid black;padding: 10px; border-radius: 5px;  text-align: center; ">
+            <h4>Документы пользователя {{ users.username }} ({{ users.surname }} {{ users.name }} {{ users.middle_name }})</h4>
+            <p></p>
+            <form>
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/primary-documents?user_id={{ users.user_id }}'; return false;" style="width:300px;">Свидетельство о рождении</button>
+            </form>
+            <p></p>
+            <form method="get" action="/passport">
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/passport?user_id={{ users.user_id }}'; return false;" style="width:300px;">Паспорт</button>
+            </form>
+            <p></p>
+            <form method="get" action="/international-passport">
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/international-passport?user_id={{ users.user_id }}'; return false;" style="width:300px;">Заграничный Паспорт</button>
+            </form>
+            <p></p>
+            <form method="get" action="/military">
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/military?user_id={{ users.user_id }}'; return false;" style="width:300px;">Военный билет</button>
+            </form>
+            <p></p>
+            <form method="get" action="/individual-account-numbers">
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/individual-account-numbers?user_id={{ users.user_id }}'; return false;" style="width:300px;">СНИЛС и ИНН</button>
+            </form>
+            <p></p>
+            <form method="get" action="/oms">
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/oms?user_id={{ users.user_id }}'; return false;" style="width:300px;">Полис ОМС</button>
+            </form>
+            <p></p>
+            <form method="get" action="/old-oms">
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/old-oms?user_id={{ users.user_id }}'; return false;" style="width:300px;">Старый полис ОМС</button>
+            </form>
+            <p></p>
+            <form method="get" action="/all-users">
+                <button type="submit" class="btn btn-primary" style="float: right; margin: 0 2px">Вернуться назад</button>
+            </form>
+        </fieldset>
+    {% else %}
+        <p>Войдите в систему!</p>
+    {% endif %}
+{% endblock %}

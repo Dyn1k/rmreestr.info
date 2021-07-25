@@ -1,0 +1,129 @@
+{% extends '/parts/base.twig' %}
+{% block body %}
+    <h1>Индивидуальные учетные номера (Редактирование)</h1>
+    <p></p>
+    {% if user is not null %}
+        {% if individual_account_numbers is not null %}
+            {% if message is not null %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <form method="post" action="/edit-individual-account-numbers-post">
+                <h4>Свидетельство государственного пенсионного страхования</h4>
+                <div class="form-ground">
+                    <label for="personal_pension_account_number">СНИЛС</label>
+                    <input type="text" name="personal_pension_account_number" class="form-control" id="personal_pension_account_number" maxlength="11" value="{{ individual_account_numbers.personal_pension_account_number}}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="registration_date_PPAN">Дата регистрации</label>
+                    <input type="date" name="registration_date_PPAN" class="form-control" id="registration_date_PPAN" value="{{ individual_account_numbers.registration_date_PPAN}}" />
+                </div>
+                <p></p>
+                <h4>Свидетельство о постановке на учёт физического лица в налоговом органе</h4>
+                <div class="form-ground">
+                    <label for="personal_taxpayer_number">ИНН</label>
+                    <input type="text" name="personal_taxpayer_number" class="form-control" id="personal_taxpayer_number" maxlength="12" value="{{ individual_account_numbers.personal_taxpayer_number}}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="registration_date_PTN">Дата постановки на учет</label>
+                    <input type="date" name="registration_date_PTN" class="form-control" id="registration_date_PTN" value="{{ individual_account_numbers.registration_date_PTN}}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="taxpayer_certificates_issuer_id">Налоговый орган</label>
+                    <input type="text" name="taxpayer_certificates_issuer_id" class="form-control" id="taxpayer_certificates_issuer_id" value="{{ individual_account_numbers.taxpayer_certificates_issuer_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="taxpayer_certificates_issue_department_code_id">Код подразделения</label>
+                    <input type="text" name="taxpayer_certificates_issue_department_code_id" class="form-control" id="taxpayer_certificates_issue_department_code_id"  maxlength="20" value="{{ individual_account_numbers.taxpayer_certificates_issue_department_code_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="form_series">Серия бланка</label>
+                    <input type="text" name="form_series" class="form-control" id="form_series" maxlength="2" value="{{ individual_account_numbers.form_series }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="form_number">Номер бланка</label>
+                    <input type="text" name="form_number" class="form-control" id="form_number" maxlength="9" value="{{ individual_account_numbers.form_number }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="taxpayer_certificates_issue_date">Дата выдачи</label>
+                    <input type="date" name="taxpayer_certificates_issue_date" class="form-control" id="taxpayer_certificates_issue_date" value="{{ individual_account_numbers.taxpayer_certificates_issue_date }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="authorized_employee">Должностное лицо</label>
+                    <input type="text" name="authorized_employee" class="form-control" id="authorized_employee" placeholder="Инициалы и фамилия" value="{{ individual_account_numbers.authorized_employee }}" />
+                </div>
+                <p></p>
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Сохранить изменения</button>
+            </form>
+        {% else %}
+            {% if not individual_account_numbers %}
+                <div class="alert alert-danger" role="alert">
+                    Пользователь не заполнил данные.
+                </div>
+            {% endif %}
+            {% if not individual_account_numbers.authenticity %}
+                {% if user.role is same as('user') %}
+                    <div class="alert alert-danger" role="alert">
+                        Ваши данные не подтверждены Оператором системы.
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        Данные не подтверждены.
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if user.role is same as('user') %}
+                    <div class="alert alert-success" role="alert">
+                        Ваши данные подтверждены Оператором системы.
+                    </div>
+                {% else %}
+                    <div class="alert alert-success" role="alert">
+                        Данные подтверждены.
+                    </div>
+                {% endif %}
+            {% endif %}
+            <form style="border: 3px solid black;padding: 10px; border-radius: 5px; ">
+                <h5>Свидетельство государственного пенсионного страхования</h5>
+                <p>СНИЛС: {{ individual_account_numbers.personal_pension_account_number|escape }}</p>
+                <p>Дата регистрации: {{ individual_account_numbers.registration_date_PPAN|escape }}</p>
+                <h5>Свидетельство о постановке на учёт физического лица в налоговом органе</h5>
+                <p>ИНН: {{ individual_account_numbers.personal_taxpayer_number|escape }}</p>
+                <p>Дата постановки на учет: {{ individual_account_numbers.registration_date_PTN|escape }}</p>
+                <p>Налоговый орган: {{ individual_account_numbers.taxpayer_certificates_issuer_id|escape }}</p>
+                <p>Код подразделения: {{ individual_account_numbers.taxpayer_certificates_issue_department_code_id|escape }}</p>
+                <p>Серия бланка: {{ individual_account_numbers.form_series|escape }}</p>
+                <p>Номер бланка: {{ individual_account_numbers.form_number|escape }}</p>
+                <p>Дата выдачи: {{ individual_account_numbers.taxpayer_certificates_issue_date|escape }}</p>
+                <p>Должностное лицо: {{ individual_account_numbers.authorized_employee|escape }}</p>
+            </form>
+            <p></p>
+            <form method="get" action="/">
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Редактировать данные</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p>Авторизуйтесь, чтобы получить доступ к данным!</p>
+    {% endif %}
+    {% if user.role is same as('admin') %}
+        <form>
+            <button type="submit" class="btn btn-primary" onclick="window.location.href='/documents-users?user_id={{ users.user_id }}'; return false;" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+        <form method="post" action="/individual-account-numbers-confirm-post?user_id={{ users.user_id }}">
+            <button type="submit" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">Подтвердить данные</button>
+        </form>
+    {% else %}
+        <p></p>
+        <form method="get" action="/ian">
+            <button type="submit" class="btn btn-primary" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+    {% endif %}
+{% endblock %}

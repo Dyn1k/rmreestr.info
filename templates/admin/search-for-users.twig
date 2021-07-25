@@ -1,0 +1,63 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1 style="text-align: center;">Форма поиска пользователей</h1>
+    {% if user is not null %}
+    {% if search_users is  null %}
+        {% if message is not null %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+        <fieldset style="width: 500px; margin-left: auto; margin-right: auto; border: 3px solid black;padding: 10px; border-radius: 5px;  text-align: center; ">
+            <form method="post" action="/search-for-users-post">
+            <div class="form-ground">
+                <label for="surname_id">Фамилия</label>
+                <input type="text" name="surname_id" class="form-control" id="surname_id" value="" />
+            </div>
+
+            <div class="form-ground">
+                <label for="name_id">Имя</label>
+                <input type="text" name="name_id" class="form-control" id="name_id" value="" />
+            </div>
+
+            <div class="form-ground">
+                <label for="middle_name_id">Отчество</label>
+                <input type="text" name="middle_name_id" class="form-control" id="middle_name_id" value="" />
+            </div>
+
+            <p></p>
+            <button type="submit" class="btn btn-primary" style="text-align:center">Поиск</button>
+            </form>
+            {% else %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">id</th>
+                    <th>Идентификатор</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Отчество</th>
+                    <th>Электронная почта</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for users in search_users %}
+                    <tr  onmouseover="this.style.cursor='pointer';this.style.color='MediumBlue';this.style.textDecoration='underline';" onmouseout="this.style.color='black';this.style.textDecoration='none';"
+                         onclick="window.location.href='documents-users?user_id={{ users.user_id }}'; return false;">
+                        <td style="text-align: center;">{{ users.user_id }}</td>
+                        <td>{{ users.username }}</td>
+                        <td>{{ users.surname }}</td>
+                        <td>{{ users.name }}</td>
+                        <td>{{ users.middle_name }}</td>
+                        <td>{{ users.email }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </fieldset>
+    {% endif %}
+    {% else %}
+        <p>Войдите в систему!</p>
+    {% endif %}
+{% endblock %}

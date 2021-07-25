@@ -1,0 +1,124 @@
+{% extends '/parts/base.twig' %}
+{% block body %}
+    <h1>Военный билет (Редактирование)</h1>
+    {% if user is not null %}
+        {% if military is not null %}
+            {% if message is not null %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <form method="post" action="/edit-military-post">
+                <div class="form-ground">
+                    <label for="surname_id">Фамилия</label>
+                    <input type="text" name="surname_id" class="form-control" id="surname_id" value="{{ military.surname_id|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="name_id">Имя</label>
+                    <input type="text" name="name_id" class="form-control" id="name_id" value="{{ military.name_id|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="middle_name">Отчество (без отчества <input style="vertical-align: middle;" type="checkbox" name="check_mid_name" id="check_mid_name" onclick="textBlock()" value="yes"> )</label>
+                    <input type="text" name="middle_name_id" class="form-control" id="middle_name" value="{{ military.middle_name_id|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="birth_date">Дата рождения</label>
+                    <input type="date" name="birth_date" class="form-control" id="birth_date" value="{{ military.birth_date|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="etnicity_id">Национальность</label>
+                    <input type="text" name="etnicity_id" class="form-control" id="etnicity_id" value="{{ military.etnicity_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="military_series">Серия</label>
+                    <input type="text" name="military_series" class="form-control" id="military_series" maxlength="2" value="{{ military.military_series }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="military_number">Номер</label>
+                    <input type="text" name="military_number" class="form-control" id="military_number"  maxlength="7" value="{{ military.military_number }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="military_issuer_id">Военный комиссариат</label>
+                    <input type="text" name="military_issuer_id" class="form-control" id="military_issuer_id" value="{{ military.military_issuer_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="military_issue_date">Дата выдачи</label>
+                    <input type="date" name="military_issue_date" class="form-control" id="military_issue_date" value="{{ military.military_issue_date }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="military_commissar">Военнный комиссар</label>
+                    <input type="text" name="military_commissar" class="form-control" id="military_commissar" value="{{ military.military_commissar }}" />
+                </div>
+                <p></p>
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Сохранить изменения</button>
+            </form>
+        {% else %}
+            {% if not military %}
+                <div class="alert alert-danger" role="alert">
+                    Пользователь не заполнил данные.
+                </div>
+            {% endif %}
+            {% if not military.authenticity %}
+                {% if user.role is same as('user') %}
+                    <div class="alert alert-danger" role="alert">
+                        Ваши данные не подтверждены Оператором системы.
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        Данные не подтверждены.
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if user.role is same as('user') %}
+                    <div class="alert alert-success" role="alert">
+                        Ваши данные подтверждены Оператором системы.
+                    </div>
+                {% else %}
+                    <div class="alert alert-success" role="alert">
+                        Данные подтверждены.
+                    </div>
+                {% endif %}
+            {% endif %}
+            <form style="border: 3px solid black;padding: 10px; border-radius: 5px; ">
+                <p>Фамилия: {{ military.surname_id|escape }}</p>
+                <p>Имя: {{ military.name_id|escape }}</p>
+                <p>Отчество: {{ military.middle_name_id|escape }}</p>
+                <p>Дата рождения: {{ military.birth_date|escape }}</p>
+                <p>Национальность: {{ military.etnicity_id|escape }}</p>
+                <p>Серия: {{ military.military_series|escape }}</p>
+                <p>Номер: {{ military.military_number|escape }}</p>
+                <p>Военный комиссариат: {{ military.military_issuer_id|escape }}</p>
+                <p>Дата выдачи: {{ military.military_issue_date|escape }}</p>
+                <p>Военнный комиссар: {{ military.military_commissar|escape }}</p>
+            </form>
+            <p></p>
+            <form method="get" action="/">
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Редактировать данные</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p>Авторизуйтесь, чтобы получить доступ к данным!</p>
+    {% endif %}
+    {% if user.role is same as('admin') %}
+        <form>
+            <button type="submit" class="btn btn-primary" onclick="window.location.href='/documents-users?user_id={{ users.user_id }}'; return false;" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+        <form method="post" action="/military-confirm-post?user_id={{ users.user_id }}">
+            <button type="submit" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">Подтвердить данные</button>
+        </form>
+    {% else %}
+        <p></p>
+        <form method="get" action="/identification-documents">
+            <button type="submit" class="btn btn-primary" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+    {% endif %}
+{% endblock %}

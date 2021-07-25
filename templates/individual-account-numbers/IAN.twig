@@ -1,0 +1,17 @@
+{% extends '/parts/base.twig' %}
+{% block body %}
+    <h1>Индивидуальные учетные номера</h1>
+    {% if user is not null %}
+        <p></p>
+        <form method="get" action="/individual-account-numbers">
+            <button type="submit" class="btn btn-primary" style="width:300px;">СНИЛС и ИНН</button>
+        </form>
+        <p></p>
+    {% else %}
+        <p>Авторизуйтесь, чтобы получить доступ к данным!</p>
+    {% endif %}
+    <p></p>
+    <form method="get" action="/">
+        <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Вернуться на главную страницу</button>
+    </form>
+{% endblock %}

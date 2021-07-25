@@ -1,0 +1,161 @@
+{% extends '/parts/base.twig' %}
+{% block body %}
+    <h1>Заграничный Паспорт (Редактирование)</h1>
+    {% if user is not null %}
+        {% if international_passport is not null %}
+            {% if message is not null %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <form method="post" action="/edit-international-passport-post">
+                <div class="form-ground">
+                    <label for="issuing_state_id">Государство выдачи</label>
+                    <input type="text" name="issuing_state_id" class="form-control" id="issuing_state_id" value="{{ international_passport.issuing_state_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="passport_type_id">Тип</label>
+                    <input type="text" name="passport_type_id" class="form-control" id="passport_type_id" value="{{ international_passport.passport_type_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="country_code_id">Код государства</label>
+                    <input type="text" name="country_code_id" class="form-control" id="country_code_id" value="{{ international_passport.country_code_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="international_passports_series">Серия</label>
+                    <input type="text" name="international_passports_series" class="form-control" id="international_passports_series" maxlength="2" value="{{ international_passport.international_passports_series }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="international_passports_number">Номер</label>
+                    <input type="text" name="international_passports_number" class="form-control" id="international_passports_number"  maxlength="7" value="{{ international_passport.international_passports_number }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="surname_id">Фамилия</label>
+                    <input type="text" name="surname_id" class="form-control" id="surname_id" value="{{ international_passport.surname_id|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="name_id">Имя</label>
+                    <input type="text" name="name_id" class="form-control" id="name_id" value="{{ international_passport.name_id|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="middle_name">Отчество (без отчества <input style="vertical-align: middle;" type="checkbox" name="check_mid_name" id="check_mid_name" onclick="textBlock()" value="yes"> )</label>
+                    <input type="text" name="middle_name_id" class="form-control" id="middle_name" value="{{ international_passport.middle_name_id|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="birth_date">Дата рождения</label>
+                    <input type="date" name="birth_date" class="form-control" id="birth_date" value="{{ international_passport.birth_date|escape }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label>Место рождения</label>
+                    <label for="birth_place_country_id"></label><input type="text" name="birth_place_country_id" class="form-control" id="birth_place_country_id" placeholder="Страна" value="{{ international_passport.birth_place_country_id|escape }}" />
+                    <label for="birth_place_region_id"></label><input type="text" name="birth_place_region_id" class="form-control" id="birth_place_region_id" placeholder="Субъект" value="{{ international_passport.birth_place_region_id|escape}}" />
+                    <label for="birth_place_city_id"></label><input type="text" name="birth_place_city_id" class="form-control" id="birth_place_city_id" placeholder="Город" value="{{ international_passport.birth_place_city_id|escape}}" />
+                    <label for="birth_place_district_id"></label><input type="text" name="birth_place_district_id" class="form-control" id="birth_place_district_id" placeholder="Район" value="{{ international_passport.birth_place_district_id|escape}}" />
+                    <label for="birth_place_settlement_id"></label><input type="text" name="birth_place_settlement_id" class="form-control" id="birth_place_settlement_id" placeholder="Населённый пункт (оставьте поле пустым, если таких данных нет)" value="{{ international_passport.birth_place_settlement_id|escape}}" />
+                </div>
+                <label></label>
+                <div class="form-ground">
+                    <label for="sex_id">Пол</label><br>
+
+                    <label for="sex_male_id">Мужской</label><input type="radio" name="sex_id" id="sex_male_id" onclick="radioCheck()" value="Мужской"><br>
+                    <label for="sex_female_id">Женский</label><input type="radio" name="sex_id" id="sex_female_id" onclick="radioCheck()" value="Женский">
+                </div>
+                <label></label>
+
+                <div class="form-ground">
+                    <label for="citizenship_id">Гражданство</label>
+                    <input type="text" name="citizenship_id" class="form-control" id="citizenship_id" value="{{ international_passport.citizenship_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="international_passports_issuer">Орган, выдавший документ</label>
+                    <input type="text" name="international_passports_issuer" class="form-control" id="international_passports_issuer" value="{{ international_passport.international_passports_issuer }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="international_passports_issue_date">Дата выдачи</label>
+                    <input type="date" name="international_passports_issue_date" class="form-control" id="international_passports_issue_date" value="{{ international_passport.international_passports_issue_date }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="international_passports_expiry_date">Дата окончания срока</label>
+                    <input type="date" name="international_passports_expiry_date" class="form-control" id="international_passports_expiry_date" value="{{ international_passport.international_passports_expiry_date }}" />
+                </div>
+                <p></p>
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Сохранить изменения</button>
+            </form>
+        {% else %}
+            {% if not international_passport %}
+                <div class="alert alert-danger" role="alert">
+                    Пользователь не заполнил данные.
+                </div>
+            {% endif %}
+            {% if not international_passport.authenticity %}
+                {% if user.role is same as('user') %}
+                    <div class="alert alert-danger" role="alert">
+                        Ваши данные не подтверждены Оператором системы.
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        Данные не подтверждены.
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if user.role is same as('user') %}
+                    <div class="alert alert-success" role="alert">
+                        Ваши данные подтверждены Оператором системы.
+                    </div>
+                {% else %}
+                    <div class="alert alert-success" role="alert">
+                        Данные подтверждены.
+                    </div>
+                {% endif %}
+            {% endif %}
+            <form style="border: 3px solid black;padding: 10px; border-radius: 5px; ">
+                <p>Государство выдачи: {{ international_passport.issuing_state_id|escape }}</p>
+                <p>Тип: {{ international_passport.passport_type_id|escape }}</p>
+                <p>Код государства: {{ international_passport.country_code_id|escape }}</p>
+                <p>Серия: {{ international_passport.international_passports_series|escape }}</p>
+                <p>Номер: {{ international_passport.international_passports_number|escape }}</p>
+                <p>Фамилия: {{ international_passport.surname_id|escape }}</p>
+                <p>Имя: {{ international_passport.name_id|escape }}</p>
+                <p>Отчество: {{ international_passport.middle_name_id|escape }}</p>
+                <p>Дата рождения: {{ international_passport.birth_date|escape }}</p>
+                <p>Место рождения: {{ international_passport.birth_place_country_id|escape }}, {{ international_passport.birth_place_region_id|escape }}, {{ international_passport.birth_place_city_id|escape }}, {{ international_passport.birth_place_district_id|escape }}, {{ international_passport.birth_place_settlement_id|escape }}</p>
+                <p>Пол: {{ international_passport.sex_id|escape }}</p>
+                <p>Гражданство: {{ international_passport.citizenship_id|escape }}</p>
+                <p>Орган, выдавший документ: {{ international_passport.international_passports_issuer|escape }}</p>
+                <p>Дата выдачи: {{ international_passport.international_passports_issue_date|escape }}</p>
+                <p>Дата окончания срока: {{ international_passport.international_passports_expiry_date|escape }}</p>
+            </form>
+            <p></p>
+            <form method="get" action="/">
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Редактировать данные</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p>Авторизуйтесь, чтобы получить доступ к данным!</p>
+    {% endif %}
+    {% if user.role is same as('admin') %}
+        <form>
+            <button type="submit" class="btn btn-primary" onclick="window.location.href='/documents-users?user_id={{ users.user_id }}'; return false;" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+        <form method="post" action="/international-passport-confirm-post?user_id={{ users.user_id }}">
+            <button type="submit" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">Подтвердить данные</button>
+        </form>
+    {% else %}
+        <p></p>
+        <form method="get" action="/identification-documents">
+            <button type="submit" class="btn btn-primary" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+    {% endif %}
+{% endblock %}

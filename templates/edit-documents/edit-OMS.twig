@@ -1,0 +1,76 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1>Полис обязательного медицинского страхования (Редактирование)</h1>
+    {% if user is not null %}
+        {% if policy_oms is not null %}
+            {% if message is not null %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <form method="post" action="/oms-post">
+                <div class="form-ground">
+                    <label for="OMS_number">Номер</label>
+                    <input type="text" name="OMS_number" class="form-control" id="OMS_number" maxlength="16" value="{{ policy_oms.OMS_number }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="OMS_issuer_id">Страховая медицинская организация</label>
+                    <input type="text" name="OMS_issuer_id" class="form-control" id="OMS_issuer_id" value="{{ policy_oms.OMS_issuer_id }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="OMS_issue_date">Дата выдачи</label>
+                    <input type="date" name="OMS_issue_date" class="form-control" id="OMS_issue_date" value="{{ policy_oms.OMS_issue_date }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="OMS_form_series">Серия бланка</label>
+                    <input type="text" name="OMS_form_series" class="form-control" id="OMS_form_series" maxlength="4" value="{{ policy_oms.OMS_form_series }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="OMS_form_number">Номер бланка</label>
+                    <input type="text" name="OMS_form_number" class="form-control" id="OMS_form_number"  maxlength="7" value="{{ policy_oms.OMS_form_number }}" />
+                </div>
+
+                <div class="form-ground">
+                    <label for="OMS_authorized_employee">Представитель страховой медицинской организации</label>
+                    <input type="text" name="OMS_authorized_employee" class="form-control" id="OMS_authorized_employee" value="{{ policy_oms.OMS_authorized_employee }}" />
+                </div>
+                <p></p>
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Сохранить изменения</button>
+            </form>
+        {% else %}
+            {% if not policy_oms %}
+                <div class="alert alert-danger" role="alert">
+                    Пользователь не заполнил данные.
+                </div>
+            {% endif %}
+            <form style="border: 3px solid black;padding: 10px; border-radius: 5px; ">
+                <p>Номер: {{ policy_oms.OMS_number|escape }}</p>
+                <p>Страховая медицинская организация: {{ policy_oms.OMS_issuer_id|escape }}</p>
+                <p>Дата выдачи: {{ policy_oms.OMS_issue_date|escape }}</p>
+                <p>Серия бланка: {{ policy_oms.OMS_form_series|escape }}</p>
+                <p>Номер бланка: {{ policy_oms.OMS_form_number|escape }}</p>
+                <p>Представитель страховой медицинской организации: {{ policy_oms.OMS_authorized_employee|escape }}</p>
+            </form>
+            <p></p>
+            <form method="get" action="/">
+                <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Редактировать данные</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p>Авторизуйтесь, чтобы получить доступ к данным!</p>
+    {% endif %}
+    {% if user.role is same as('admin') %}
+        <form>
+            <button type="submit" class="btn btn-primary" onclick="window.location.href='/documents-users?user_id={{ users.user_id }}'; return false;" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+    {% else %}
+        <p></p>
+        <form method="get" action="/insurance">
+            <button type="submit" class="btn btn-primary" style="float: right; margin: 0 2px">Вернуться назад</button>
+        </form>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1 style="text-align: center;">Форма вывода всех пользователей</h1>
+    {% if user is not null %}
+        <form method="get" action="/" style="text-align:center">
+            <button type="submit" class="btn btn-primary">Вернуться на главную страницу</button>
+        </form>
+        <p></p>
+        <fieldset style="width: 800px; margin-left: auto; margin-right: auto; border: 3px solid black;padding: 10px; border-radius: 5px;  text-align: center; ">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">id</th>
+                    <th>Идентификатор</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Отчество</th>
+                    <th>Электронная почта</th>
+                </tr>
+                </thead>
+                <tbody>
+            {% for users in users %}
+            <tr  onmouseover="this.style.cursor='pointer';this.style.color='MediumBlue';this.style.textDecoration='underline';" onmouseout="this.style.color='black';this.style.textDecoration='none';"
+                onclick="window.location.href='documents-users?user_id={{ users.user_id }}'; return false;">
+                <td style="text-align: center;">{{ users.user_id }}</td>
+                <td>{{ users.username }}</td>
+                <td>{{ users.surname }}</td>
+                <td>{{ users.name }}</td>
+                <td>{{ users.middle_name }}</td>
+                <td>{{ users.email }}</td>
+            </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
+
+    {% else %}
+        <p>Войдите в систему!</p>
+    {% endif %}
+{% endblock %}

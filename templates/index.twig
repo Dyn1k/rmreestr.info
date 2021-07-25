@@ -1,0 +1,24 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1>Главная Страница</h1>
+    {% if user is not null %}
+        <p>Здравствуйте, {{ user.name|escape }} {{ user.middle_name|escape }}!</p>
+        <form method="get" action="/prim-doc">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Первичные документы</button>
+        </form>
+        <p></p>
+        <form method="get" action="/identification-documents">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Удостоверяющие документы</button>
+        </form>
+        <p></p>
+        <form method="get" action="/ian">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Индивидуальные учетные номера</button>
+        </form>
+        <p></p>
+        <form method="get" action="/insurance">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Страхование</button>
+        </form>
+    {% else %}
+    <p>Войдите в систему!</p>
+    {% endif %}
+{% endblock %}

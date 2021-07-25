@@ -1,0 +1,20 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1 style="text-align: center;">Главная Страница</h1>
+    {% if user is not null %}
+        <fieldset style="width: 500px; margin-left: auto; margin-right: auto; border: 3px solid black;padding: 10px; border-radius: 5px;  text-align: center; ">
+        <h4>Здравствуйте, Вы вошли в панель Оператора системы!</h4>
+            <p></p>
+        <form method="get" action="/all-users">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Список всех пользователей</button>
+        </form>
+        <p></p>
+        <form method="get" action="/search-for-users">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Поиск по пользователям</button>
+        </form>
+        <p></p>
+        </fieldset>
+    {% else %}
+        <p>Войдите в систему!</p>
+    {% endif %}
+{% endblock %}

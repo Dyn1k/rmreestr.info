@@ -1,0 +1,21 @@
+{% extends '/parts/base.twig' %}
+{% block body %}
+    <h1>Страхование</h1>
+    {% if user is not null %}
+        <p></p>
+        <form method="get" action="/oms">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Полис ОМС</button>
+        </form>
+        <p></p>
+        <form method="get" action="/old-oms">
+            <button type="submit" class="btn btn-primary" style="width:300px;">Старый полис ОМС</button>
+        </form>
+        <p></p>
+    {% else %}
+        <p>Авторизуйтесь, чтобы получить доступ к данным!</p>
+    {% endif %}
+    <p></p>
+    <form method="get" action="/">
+        <button type="submit" class="btn btn-primary" style="float: left; margin: 0 2px">Вернуться на главную страницу</button>
+    </form>
+{% endblock %}

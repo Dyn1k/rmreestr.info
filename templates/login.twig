@@ -1,0 +1,22 @@
+{% extends 'parts/base.twig' %}
+{% block body %}
+    <h1>Форма авторизации</h1>
+
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="/login-post">
+        <div class="form-ground">
+            <label for="email">Электронная почта</label>
+            <input type="text" name="email" class="form-control" id="email" value="{{ form ? form.email }}" />
+        </div>
+        <div class="form-ground">
+            <label for="password">Пароль</label>
+            <input type="password" name="password" class="form-control" id="password" value="" />
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+{% endblock %}
